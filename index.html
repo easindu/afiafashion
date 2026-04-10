@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afia Fashion - Exclusive Collection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <p>অর্ডার করতে নিচে স্ক্রল করুন 👇</p>
+    </div>
+
+    <div class="container">
+        
+        <header class="hero">
+            <div class="badge">৩০% ছাড়!</div>
+            <div class="main-image-container">
+                <img id="mainImg" src="https://afiafashion.netlify.app/images/ss_kalo.webp" alt="Main Product">
+            </div>
+            
+            <div class="thumbnails">
+                <img src="https://afiafashion.netlify.app/images/pink1.webp" onclick="changeImage(this)" class="active">
+                <img src="https://afiafashion.netlify.app/images/jolpai.webp" onclick="changeImage(this)">
+                <img src="https://afiafashion.netlify.app/images/ss_kalo.webp" onclick="changeImage(this)">
+                <img src="https://afiafashion.netlify.app/images/sada.webp" onclick="changeImage(this)">
+            </div>
+
+            <div class="product-info-hero">
+                <h1 class="price">৩৫০ ৳ <span class="old-price">৫০০ ৳</span></h1>
+                <p class="stock-warning">মাত্র ৫টি জামা বাকি আছে!</p>
+                <a href="#order-section" class="btn-primary">অর্ডার করুন</a>
+            </div>
+        </header>
+
+        <section class="product-selection" id="products">
+            <h2>পছন্দের পণ্যটি সিলেক্ট করুন</h2>
+            
+            <div class="product-card" data-name="SS কালো কালার" data-price="350">
+                <img src="https://afiafashion.netlify.app/images/kalo.webp" alt="Black">
+                <div class="card-details">
+                    <h3>SS কালো কালার</h3>
+                    <p class="card-price">৩৫০ ৳</p>
+                    <div class="size-selector">
+                        <span>সাইজ:</span>
+                        <select class="size-input">
+                            <option value="34">34</option>
+                            <option value="36">36</option>
+                            <option value="38">38</option>
+                            <option value="40">40</option>
+			    <option value="42">42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+			    <option value="48">48</option>
+                        </select>
+                    </div>
+                    <div class="qty-control">
+                        <button onclick="updateQty(this, -1)">-</button>
+                        <input type="number" value="0" readonly class="qty-input">
+                        <button onclick="updateQty(this, 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-name="পিঙ্ক কালার" data-price="350">
+                <img src="https://afiafashion.netlify.app/images/pink1.webp" alt="Pink">
+                <div class="card-details">
+                    <h3>পিঙ্ক কালার</h3>
+                    <p class="card-price">৩৫০ ৳</p>
+                    <div class="size-selector">
+                        <span>সাইজ:</span>
+                        <select class="size-input">
+                            <option value="34">34</option>
+                            <option value="36">36</option>
+                        </select>
+                    </div>
+                    <div class="qty-control">
+                        <button onclick="updateQty(this, -1)">-</button>
+                        <input type="number" value="0" readonly class="qty-input">
+                        <button onclick="updateQty(this, 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="order-section" class="order-form-section">
+            <h2>অর্ডার ফর্ম</h2>
+            
+            <form name="order_submission" method="POST" data-netlify="true" id="checkoutForm">
+                
+                <input type="hidden" name="form-name" value="order_submission" />
+
+                <div class="form-group">
+                    <label>আপনার নাম *</label>
+                    <input type="text" name="customer_name" required placeholder="আপনার নাম লিখুন">
+                </div>
+
+                <div class="form-group">
+                    <label>ঠিকানা *</label>
+                    <input type="text" name="customer_address" required placeholder="বাসা ও রোড নং, জেলা...">
+                </div>
+
+                <div class="form-group">
+                    <label>মোবাইল নাম্বার *</label>
+                    <input type="tel" name="customer_phone" required placeholder="017xxxxxxxx">
+                </div>
+
+                <div class="form-group">
+                    <label>ডেলিভারি এরিয়া</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="delivery_charge" value="80" checked onchange="updateTotal()">
+                            ঢাকা সিটির ভিতরে (৮০ টাকা)
+                        </label>
+                        <label>
+                            <input type="radio" name="delivery_charge" value="150" onchange="updateTotal()">
+                            ঢাকা সিটির বাহিরে (১৫০ টাকা)
+                        </label>
+                    </div>
+                </div>
+
+                <input type="hidden" name="ordered_products" id="orderedProducts">
+                
+                <input type="hidden" name="total_price" id="totalPriceInput">
+
+                <div class="order-summary">
+                    <h3>অর্ডার সামারি</h3>
+                    <p>নির্বাচিত পণ্য: <br><span id="display-items" style="font-weight:bold">...</span></p>
+                    <p>মোট বিল (ডেলিভারি সহ): <span id="display-total" style="color:red; font-size:1.2rem; font-weight:bold">৮০ ৳</span></p>
+                </div>
+
+                <button type="submit" class="btn-submit">অর্ডার কনফার্ম করুন</button>
+            </form>
+        </section>
+
+        <footer>
+            <p>© Afia Fashion Shop</p>
+ 	    <p class="stock-warning">মাত্র ৫টি জামা বাকি আছে!</p>
+        </footer>
+    </div>
+
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div style="font-size: 50px; color: green;">✔</div>
+            <h2>ধন্যবাদ!</h2>
+            <p>আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।</p>
+            <button onclick="closeModal()">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
